@@ -21,10 +21,10 @@ exports.walk = function() {
                 if (! path.match(/\/$/)) {
                     path = path+'/';
                 }
-                console.log('--- path: '+path);
+                //console.log('--- path: '+path);
 
                 fs.readdir(path, function(err, files) {
-                    console.log('--- files 1: '+files+" "+files.length);
+                    //console.log('--- files 1: '+files+" "+files.length);
                     var filesleft = files.length;
 
                     if (err) {
@@ -40,30 +40,33 @@ exports.walk = function() {
                     for (var i=0; i<files.length; i++) {
                         (function() {
                             var file = path + files[i];
-                            console.log('File: '+file);
+                            //console.log('File: '+file);
                             fs.stat(file, function(err, stats) {
                                 filelist.push(file);
                                 if (err) {
                                     console.log('Error: '+err);
                                 }
-                                console.log('--- isDirectory: '+file+' '+stats.isDirectory()+' '+stats.mode);
+                                //console.log('--- isDirectory: '+file+' '+stats.isDirectory()+' '+stats.mode);
                                 if (stats.isDirectory()) {
                                     exports.walk(file, function(list) {
-                                        console.log('## list: '+ list+" "+ list.length);
-                                        console.log('## filelist: '+ filelist+" "+ filelist.length);
+                                        //console.log('## list: '+ list+" "+ list.length);
+                                        //console.log('## filelist: '+ filelist+" "+ filelist.length);
                                         filelist = filelist.concat(list);
-                                        console.log('## filelist: '+ filelist+" "+ filelist.length);
-                                        console.log(filesleft--);
+                                        //console.log('## filelist: '+ filelist+" "+ filelist.length);
+                                        //console.log(filesleft);
+                                        filesleft--;
                                         if (!filesleft) {
-                                            console.log('+++ File count: '+ filelist.length);
+                                            //console.log('+++ File count: '+ filelist.length);
                                             callback(filelist);
                                         }
                                     });
                                 }
                                 else { // is not a directory
-                                    console.log(filesleft--);
+                                    //console.log(filesleft);
+                                    filesleft--;
+                                    //console.log(filesleft);
                                     if (!filesleft) {
-                                        console.log('--- File count: '+ filelist.length);
+                                        //console.log('--- File count: '+ filelist.length);
                                         callback(filelist);
                                     }
                                 }
