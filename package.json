@@ -9,6 +9,6 @@
   },
   "bugs": "http://github.com/trusktr/node-at-at/issues",
   "dependencies": {
-    "parametric": "0.0.3"
+    "parametric": "0.0.4"
   }
 }
