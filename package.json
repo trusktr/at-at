@@ -1,0 +1,14 @@
+{
+  "name": "at-at",
+  "description": "An AT-AT walker to walk all over your (filesystem) planet.",
+  "version": "0.0.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/trusktr/node-at-at"
+  },
+  "bugs": "http://github.com/trusktr/node-at-at/issues",
+  "dependencies": {
+    "parametric": "0.0.3"
+  }
+}
