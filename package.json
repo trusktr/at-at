@@ -1,14 +1,27 @@
 {
-  "name": "at-at",
-  "description": "An AT-AT walker to walk all over your (filesystem) planet.",
-  "version": "0.0.3",
-  "private": false,
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/trusktr/node-at-at"
-  },
-  "bugs": "http://github.com/trusktr/node-at-at/issues",
-  "dependencies": {
-    "parametric": "0.0.5"
-  }
+    "name": "at-at",
+    "description": "An AT-AT walker to walk all over your (filesystem) planet.",
+    "main": "at-at.js",
+    "version": "0.0.3",
+    "private": false,
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/trusktr/node-at-at"
+    },
+    "bugs": "http://github.com/trusktr/node-at-at/issues",
+    "keywords": [
+        "filesystem",
+        "walker",
+        "traverse",
+        "directories",
+        "directory",
+        "traversal"
+    ],
+    "authors": [
+        "Joseph Orbegoso Pea <joe@trusktr.io>"
+    ],
+    "dependencies": {
+        "parametric": "0.0.5"
+    },
+    "license": "MPL"
 }
