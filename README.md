@@ -1,12 +1,12 @@
-
-
-
 AT-AT
 =====
 
 An AT-AT walker to walk all over your (filesystem) planet.
 
 ## Usage
+
+Use at-at to traverse directories in your filesystem.
+
 
 ```javascript
 var walker = require('at-at');
@@ -22,6 +22,11 @@ walker.walk('./', function(files) {
 The callback passed to walker.walk() gets called after all files have been
 traversed asynchronously. The given example is similar to running the shell
 command `find`.
+
+## Roadmap
+
+ * Traverse with regex filters.
+ * Traverse by type (directory, file, etc).
 
 ## Thanks to
 
