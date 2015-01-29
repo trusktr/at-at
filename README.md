@@ -8,7 +8,7 @@ An AT-AT walker to walk all over your (filesystem) planet.
 Use at-at to traverse directories in your filesystem.
 
 
-```javascript
+```js
 var walker = require('at-at');
 
 walker.walk('./', function(files) {
@@ -23,15 +23,15 @@ The callback passed to walker.walk() gets called after all files have been
 traversed asynchronously. The given example is similar to running the shell
 command `find`.
 
-## Roadmap
+## TODO
 
  * Traverse with regex filters.
  * Traverse by type (directory, file, etc).
 
 ## Thanks to
 
-- [mscdex](github.com/mscdex/) for some insight on asynchronicity.
-- [chjj](github.com/chjj) for the initial
+- [mscdex](http://github.com/mscdex/) for some insight on asynchronicity.
+- [chjj](http://github.com/chjj) for the initial
   [idea](http://stackoverflow.com/questions/5827612). I wanted to make my own
-  and I learnt tons in the process.
+  and I learnt lots in the process.
 
