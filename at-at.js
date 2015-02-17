@@ -29,34 +29,30 @@ exports.walk = function() {
 
                     if (!filesleft) callback(filelist); // return empty filelist.
 
-                    //files.forEach(function(file) {
-                    for (var i=0; i<files.length; i++) {
-                        (function() {
-                            var file = path + files[i];
-                            fs.stat(file, function(err, stats) {
-                                filelist.push(file);
-                                if (err) {
-                                    console.log('Error: '+err);
-                                }
-                                if (stats.isDirectory()) {
-                                    exports.walk(file, function(list) {
-                                        filelist = filelist.concat(list);
-                                        filesleft--;
-                                        if (!filesleft) {
-                                            callback(filelist);
-                                        }
-                                    });
-                                }
-                                else { // is not a directory
+                    files.forEach(function(file) {
+                        var file = path + file;
+                        fs.stat(file, function(err, stats) {
+                            filelist.push(file);
+                            if (err) {
+                                console.log('Error: '+err);
+                            }
+                            if (stats.isDirectory()) {
+                                exports.walk(file, function(list) {
+                                    filelist = filelist.concat(list);
                                     filesleft--;
                                     if (!filesleft) {
                                         callback(filelist);
                                     }
+                                });
+                            }
+                            else { // is not a directory
+                                filesleft--;
+                                if (!filesleft) {
+                                    callback(filelist);
                                 }
-                            });
-                        })();
-                    }
-                    //}
+                            }
+                        });
+                    });
                 });
 
             }
