@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var parametric = require('parametric');
+var callAfter = require('army-knife/callAfter').callAfter;
 
 exports.walk = function() {
     return parametric.overload(arguments,
@@ -11,45 +12,38 @@ exports.walk = function() {
         ],
 
         [
+            //TODO: filter the file list by regex. run callback after walking.
             function(path, filter, callback) {
-                //TODO: filter the file list by regex. run callback after walking.
             },
-            function (path, callback) {
-                // Run callback when done walking. No filter.
-                var filelist = [];
 
+            // Run callback when done walking. No filter.
+            function (path, callback) {
+                var fileList = [];
+
+                // append a slash to the path if it doesn't have one.
                 if (! path.match(/\/$/)) {
                     path = path+'/';
                 }
 
                 fs.readdir(path, function(err, files) {
                     if (err) throw new Error('Unable to read '+path+'.\n'+err)
+                    if (!files.length) callback(fileList); // return empty fileList.
 
-                    var filesleft = files.length;
-
-                    if (!filesleft) callback(filelist); // return empty filelist.
-
+                    callback = callAfter(files.length, callback);
                     files.forEach(function(file) {
                         var file = path + file;
                         fs.stat(file, function(err, stats) {
-                            filelist.push(file);
-                            if (err) {
-                                console.log('Error: '+err);
-                            }
+                            if (err) throw err;
+
+                            fileList.push(file);
                             if (stats.isDirectory()) {
                                 exports.walk(file, function(list) {
-                                    filelist = filelist.concat(list);
-                                    filesleft--;
-                                    if (!filesleft) {
-                                        callback(filelist);
-                                    }
+                                    fileList = fileList.concat(list);
+                                    callback(fileList);
                                 });
                             }
                             else { // is not a directory
-                                filesleft--;
-                                if (!filesleft) {
-                                    callback(filelist);
-                                }
+                                callback(fileList);
                             }
                         });
                     });
