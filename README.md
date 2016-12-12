@@ -15,7 +15,7 @@ walker.walk('./', function(files) {
     // files is an array of filenames (including the paths).
     files.forEach(function(file) {
         console.log(file);
-    }
+    });
 });
 ```
 
