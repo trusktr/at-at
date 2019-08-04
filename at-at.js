@@ -1,57 +1,73 @@
-
-
-var fs = require('fs');
-var parametric = require('parametric');
-var callAfter = require('army-knife/callAfter').callAfter;
+var fs = require('fs')
+var parametric = require('parametric')
+var callAfter = require('army-knife/callAfter').callAfter
 var Path = require('path')
+var r = require('regexr').default
 
 exports.walk = function() {
-    return parametric.overload(arguments,
-        [
-            ["str", {}, function(){}],
-            ["str", function(){}],
-        ],
+	return parametric.overload(
+		arguments,
 
-        [
-            //TODO: filter the file list by regex. run callback after walking.
-            function(path, filter, callback) {
-            },
+		// prettier-ignore
+		[
+			['str', {}, () => {}, {}],
+			['str', () => {}, {}],
+		],
 
-            // Run callback when done walking. No filter.
-            function (path, callback) {
-                var fileList = [];
+		[
+			//TODO: filter the file list by regex. run callback after walking.
+			function(path, filter, callback, options) {},
 
-                // append a slash to the path if it doesn't have one.
-                if (! path.endsWith(Path.sep)) {
-                    path = path+Path.sep;
-                }
+			// Run callback when done walking. No filter.
+			function(path, callback, options) {
+				_traverse(path, files => {
+					if (options && options.relative) {
+						if (!path.endsWith(Path.sep)) {
+							path = path + Path.sep
+						}
 
-                fs.readdir(path, function(err, files) {
-                    if (err) throw new Error('Unable to read '+path+'.\n'+err)
-                    if (!files.length) callback(fileList); // return empty fileList.
+						files = files.map(file => file.replace(r`/^${r.escape(path)}/`, ''))
+					}
 
-                    callback = callAfter(files.length, callback);
-                    files.forEach(function(file) {
-                        var file = path + file;
-                        fs.stat(file, function(err, stats) {
-                            if (err) throw err;
+					callback(files)
+				})
+			},
+		]
+	)
+}
 
-                            fileList.push(file);
-                            if (stats.isDirectory()) {
-                                exports.walk(file, function(list) {
-                                    fileList = fileList.concat(list);
-                                    callback(fileList);
-                                });
-                            }
-                            else { // is not a directory
-                                callback(fileList);
-                            }
-                        });
-                    });
-                });
+function _traverse(path, callback) {
+	var fileList = []
 
-            }
-        ]
-    );
+	// append a slash to the path if it doesn't have one.
+	if (!path.endsWith(Path.sep)) {
+		path = path + Path.sep
+	}
 
-};
+	fs.readdir(path, function(err, files) {
+		if (err) throw new Error('Unable to read ' + path + '.\n' + err)
+		if (!files.length) callback(fileList) // return empty fileList.
+
+		callback = callAfter(files.length, callback)
+
+		files.forEach(function(fileName) {
+			var file = path + fileName
+
+			fs.stat(file, function(err, stats) {
+				if (err) throw err
+
+				fileList.push(file)
+
+				if (stats.isDirectory()) {
+					_traverse(file, function(list) {
+						fileList = fileList.concat(list)
+						callback(fileList)
+					})
+				} else {
+					// is not a directory
+					callback(fileList)
+				}
+			})
+		})
+	})
+}

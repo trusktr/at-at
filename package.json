@@ -22,7 +22,8 @@
   ],
   "dependencies": {
     "army-knife": "^0.2.3",
-    "parametric": "0.0.5"
+    "parametric": "0.0.5",
+    "regexr": "^1.6.0"
   },
   "license": "MPL"
 }
