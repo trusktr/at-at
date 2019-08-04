@@ -3,6 +3,7 @@
 var fs = require('fs');
 var parametric = require('parametric');
 var callAfter = require('army-knife/callAfter').callAfter;
+var Path = require('path')
 
 exports.walk = function() {
     return parametric.overload(arguments,
@@ -21,8 +22,8 @@ exports.walk = function() {
                 var fileList = [];
 
                 // append a slash to the path if it doesn't have one.
-                if (! path.match(/\/$/)) {
-                    path = path+'/';
+                if (! path.endsWith(Path.sep)) {
+                    path = path+Path.sep;
                 }
 
                 fs.readdir(path, function(err, files) {
