@@ -2,7 +2,7 @@
   "name": "at-at",
   "description": "An AT-AT walker to walk all over your (filesystem) planet.",
   "main": "at-at.js",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "private": false,
   "repository": {
     "type": "git",
