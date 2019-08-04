@@ -4,6 +4,9 @@ var callAfter = require('army-knife/callAfter').callAfter
 var Path = require('path')
 var r = require('regexr').default
 
+// TODO:
+// - options to make resulting file paths absolute, appended to the supplied path, or relative to the supplied path.
+
 exports.walk = function() {
 	return parametric.overload(
 		arguments,
